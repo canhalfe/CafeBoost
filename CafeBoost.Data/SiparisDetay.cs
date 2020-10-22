@@ -11,12 +11,15 @@ namespace CafeBoost.Data
         public string UrunAd { get; set; }
         public decimal BirimFiyat { get; set; }
         public int Adet { get; set; }
-        public string TutarTL { get { return Tutar() + "TL"; } } //readonly
+        public string TutarTL { get { return Tutar() + "TL"; } } //readonly o yüzden set'i yok
 
         public decimal Tutar()
         {
             return Adet * BirimFiyat;
         }
+        //yada;
+
+        //public decimal Tutar() => Adet * BirimFiyat
 
     }
 }

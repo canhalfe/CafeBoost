@@ -13,7 +13,7 @@ namespace CafeBoost.Data
 
         public override string ToString()
         {
-            return string.Format(${UrunAd}  " "  );
+            return string.Format("{0} ({1:0.00)}", UrunAd, BirimFiyat);
         }
     }
 }
