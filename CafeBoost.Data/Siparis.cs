@@ -11,7 +11,7 @@ namespace CafeBoost.Data
 {
     public class Siparis
     {
-        List<SiparisDetay> SiparisDetaylar { get; set; } //hangi üründen kaç tane yenmiş vs listede tutuyoruz.
+        public List<SiparisDetay> SiparisDetaylar { get; set; } //hangi üründen kaç tane yenmiş vs listede tutuyoruz.
         public int MasaNo { get; set; }
         public DateTime? AcilisZamani { get; set; }
         public DateTime? Kapaniszamani { get; set; }

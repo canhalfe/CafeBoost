@@ -86,6 +86,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="SiparisForm.resx">
       <DependentUpon>SiparisForm.cs</DependentUpon>
@@ -106,6 +107,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bos.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dolu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CafeBoost.Data\CafeBoost.Data.csproj">
+      <Project>{6e34f612-80b5-40b6-8afe-a647ce11f803}</Project>
+      <Name>CafeBoost.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
