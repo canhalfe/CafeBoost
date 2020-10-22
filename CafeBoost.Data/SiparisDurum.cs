@@ -7,6 +7,5 @@ namespace CafeBoost.Data
         Aktif,
         Odendi,
         Iptal
-
     }
 }

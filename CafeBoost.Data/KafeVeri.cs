@@ -11,5 +11,15 @@ namespace CafeBoost.Data
         public List<Urun> Urunler { get; set; }
         public List<Siparis> AktifSiparisler { get; set; }
         public List<Siparis> GecmisSiparisler { get; set; }
+
+        //kafe verilerini tutmak için ihtiyacımız olan prop listeleri oluşturmak için açtığımız class.
+
+        public KafeVeri()
+        {
+            Urunler = new List<Urun>();
+            AktifSiparisler = new List<Siparis>();
+            GecmisSiparisler = new List<Siparis>();
+            //böylece 
+        }
     }
 }
