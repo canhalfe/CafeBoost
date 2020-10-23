@@ -8,6 +8,7 @@ namespace CafeBoost.Data
 {
     public class KafeVeri
     {
+        public int MasaAdet { get; set; } = 20;  //default masa adeti.
         public List<Urun> Urunler { get; set; }
         public List<Siparis> AktifSiparisler { get; set; }
         public List<Siparis> GecmisSiparisler { get; set; }
@@ -18,8 +19,7 @@ namespace CafeBoost.Data
         {
             Urunler = new List<Urun>();
             AktifSiparisler = new List<Siparis>();
-            GecmisSiparisler = new List<Siparis>();
-            //böylece 
+            GecmisSiparisler = new List<Siparis>();           
         }
     }
 }
