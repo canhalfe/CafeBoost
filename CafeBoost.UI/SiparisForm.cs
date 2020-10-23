@@ -13,18 +13,17 @@ namespace CafeBoost.UI
 {
     public partial class SiparisForm : Form
     {
-        readonly KafeVeri db;
-        readonly Siparis siparis;
+        public event EventHandler<MasaTasimaEventArgs> MasaTasindi;
 
-        private readonly AnaForm anaForm;
+        readonly KafeVeri db;
+        readonly Siparis siparis;        
 
         readonly BindingList<SiparisDetay> blSiparisDetaylar;
-        public SiparisForm(KafeVeri kafeVeri, Siparis siparis, AnaForm anaForm)
+        public SiparisForm(KafeVeri kafeVeri, Siparis siparis)
         {
             db = kafeVeri;
 
-            this.siparis = siparis;
-            this.anaForm = anaForm;
+            this.siparis = siparis;           
             InitializeComponent();
             dgvSiparisDetaylar.AutoGenerateColumns = false;
 
@@ -158,12 +157,22 @@ namespace CafeBoost.UI
             int hedef = (int)cboMasalar.SelectedItem;
             int kaynak = siparis.MasaNo;
             siparis.MasaNo = hedef;
-            anaForm.MasaTasi(kaynak, hedef);
 
             MasaNoGuncelle();
             MasalariListele();
 
+            MasaTasimaEventArgs args = new MasaTasimaEventArgs()
+            {
+                EskiMasaNo = kaynak,
+                YeniMasaNo = hedef
+            };
 
+            MasaTasindiginda(args);
+        }
+
+        protected virtual void MasaTasindiginda(MasaTasimaEventArgs args)
+        {
+            MasaTasindi?.Invoke(this, args);
         }
     }
 }

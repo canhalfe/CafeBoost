@@ -17,7 +17,7 @@ namespace CafeBoost.UI
     public partial class AnaForm : Form
     {
         KafeVeri db; //kafeveri'deki listeleri çağırdık.
-        public AnaForm()
+        public AnaForm()  //ctor
         {
             VeriOku();
             InitializeComponent();
@@ -94,7 +94,10 @@ namespace CafeBoost.UI
                 lvwMasalar.SelectedItems[0].ImageKey = "dolu";
             }
 
-            SiparisForm frmSiparis = new SiparisForm(db, siparis, this);
+            SiparisForm frmSiparis = new SiparisForm(db, siparis);
+
+            frmSiparis.MasaTasindi += FrmSiparis_MasaTasindi;
+            
             DialogResult dr = frmSiparis.ShowDialog();
 
             //sipariş iptal edildiyse ya da ödeme alındıysa;
@@ -102,6 +105,11 @@ namespace CafeBoost.UI
             {
                 lvwMasalar.SelectedItems[0].ImageKey = "bos";
             }
+        }
+
+        private void FrmSiparis_MasaTasindi(object sender, MasaTasimaEventArgs e)
+        {
+            MasaTasi(e.EskiMasaNo, e.YeniMasaNo);
         }
 
         private Siparis AktifSiparisBul(int masaNo)
@@ -122,7 +130,7 @@ namespace CafeBoost.UI
             #endregion
         }
 
-        public void MasaTasi(int kaynak, int hedef)
+        private void MasaTasi(int kaynak, int hedef)
         {
             foreach (ListViewItem lvi in lvwMasalar.Items)
             {
@@ -160,6 +168,11 @@ namespace CafeBoost.UI
             string json = JsonConvert.SerializeObject(db, Formatting.Indented); 
             //formatting.intented -> düzenli yazdırmak için.
             File.WriteAllText("veri.json", json);
+        }
+
+        private void AnaForm_DoubleClick(object sender, EventArgs e)
+        {
+
         }
     }
 }
