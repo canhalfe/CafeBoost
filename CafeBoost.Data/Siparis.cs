@@ -16,6 +16,7 @@ namespace CafeBoost.Data
         public DateTime? AcilisZamani { get; set; }
         public DateTime? Kapaniszamani { get; set; }
         public SiparisDurum Durum { get; set; }
+        public decimal OdenenTutar { get; set; }
         public string ToplamTutarTL => $"{ToplamTutar():0.00}₺"; //bu bir prop, seti yok get'i de gizli biz böyle tanımlayınca get'e gerek kalmıyor.
 
         public Siparis() 
