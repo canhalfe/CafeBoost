@@ -15,24 +15,21 @@ namespace CafeBoost.UI
     {
         public event EventHandler<MasaTasimaEventArgs> MasaTasindi;
 
-        readonly KafeVeri db;
+        readonly CafeBoostContext db;
         readonly Siparis siparis;        
-
         readonly BindingList<SiparisDetay> blSiparisDetaylar;
-        public SiparisForm(KafeVeri kafeVeri, Siparis siparis)
+        public SiparisForm(CafeBoostContext CafeBoostContext, Siparis siparis)
         {
-            db = kafeVeri;
-
+            db = CafeBoostContext;
             this.siparis = siparis;           
             InitializeComponent();
             dgvSiparisDetaylar.AutoGenerateColumns = false;
-
             MasalariListele();
             UrunleriListele();
             MasaNoGuncelle();
             OdemeTutariGuncelle();
 
-            blSiparisDetaylar = new BindingList<SiparisDetay>(siparis.SiparisDetaylar);
+            blSiparisDetaylar = new BindingList<SiparisDetay>(siparis.SiparisDetaylar.ToList());
             blSiparisDetaylar.ListChanged += BlSiparisDetaylar_ListChanged;
             dgvSiparisDetaylar.DataSource = blSiparisDetaylar;
         }
@@ -43,11 +40,10 @@ namespace CafeBoost.UI
             
             for (int i = 1; i <= db.MasaAdet; i++)
             {
-                if (!db.AktifSiparisler.Any(x => x.MasaNo == i))
+                if (!db.Siparisler.Any(x => x.MasaNo == i && x.Durum == SiparisDurum.Aktif))
                 {
                     cboMasalar.Items.Add(i);
                 }
-                
             }
         }
 
@@ -63,7 +59,7 @@ namespace CafeBoost.UI
 
         private void UrunleriListele()
         {
-            cboUrun.DataSource = db.Urunler;
+            cboUrun.DataSource = db.Urunler.ToList();
         }
 
         private void MasaNoGuncelle()
@@ -81,12 +77,20 @@ namespace CafeBoost.UI
 
             SiparisDetay detay = new SiparisDetay()
             {
+                UrunId = secilenUrun.Id,
                 UrunAd = secilenUrun.UrunAd,
                 BirimFiyat = secilenUrun.BirimFiyat,
                 Adet = adet
             };
-            blSiparisDetaylar.Add(detay);
+            siparis.SiparisDetaylar.Add(detay);
+            db.SaveChanges();
+            SiparisDetaylariYenile();
+        }
 
+        private void SiparisDetaylariYenile()
+        {
+            blSiparisDetaylar.Clear();
+            siparis.SiparisDetaylar.ToList().ForEach(x => blSiparisDetaylar.Add(x));
         }
 
         private void dgvSiparisDetaylar_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
@@ -137,15 +141,14 @@ namespace CafeBoost.UI
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning,
                 MessageBoxDefaultButton.Button2);
-
+            db.SaveChanges();
         }
         private void SiparisKapat(SiparisDurum siparisDurum, decimal odenenTutar = 0)
         {
             siparis.OdenenTutar = odenenTutar;
             siparis.Kapaniszamani = DateTime.Now;
             siparis.Durum = siparisDurum;
-            db.AktifSiparisler.Remove(siparis);
-            db.GecmisSiparisler.Add(siparis);
+            db.SaveChanges();
             DialogResult = DialogResult.OK;
             Close();
         }
@@ -166,8 +169,8 @@ namespace CafeBoost.UI
                 EskiMasaNo = kaynak,
                 YeniMasaNo = hedef
             };
-
             MasaTasindiginda(args);
+            db.SaveChanges();
         }
 
         protected virtual void MasaTasindiginda(MasaTasimaEventArgs args)
