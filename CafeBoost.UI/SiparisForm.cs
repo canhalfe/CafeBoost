@@ -106,6 +106,9 @@ namespace CafeBoost.UI
             {
                 e.Cancel = true;
             }
+            SiparisDetay sd = (SiparisDetay)e.Row.DataBoundItem;
+            db.SiparisDetaylar.Remove(sd);
+            db.SaveChanges();
         }
 
         private void btnAnasayfa_Click(object sender, EventArgs e)
@@ -160,7 +163,7 @@ namespace CafeBoost.UI
             int hedef = (int)cboMasalar.SelectedItem;
             int kaynak = siparis.MasaNo;
             siparis.MasaNo = hedef;
-
+            db.SaveChanges();
             MasaNoGuncelle();
             MasalariListele();
 

@@ -18,6 +18,7 @@ namespace CafeBoost.UI
         {
             db = CafeBoostContext;
             InitializeComponent();
+            dgvSiparisDetaylar.AutoGenerateColumns = false;
             dgvSiparisler.DataSource = db.Siparisler.Where(x => x.Durum != SiparisDurum.Aktif).ToList();
         }
 
@@ -30,7 +31,7 @@ namespace CafeBoost.UI
                 Siparis seciliSiparis = (Siparis)dgvSiparisler.SelectedRows[0].DataBoundItem;
                 //databounditem --> o satıra bağlı olan nesne (bind'ın geçmiş zamanı)
 
-                dgvSiparisDetaylar.DataSource = seciliSiparis.SiparisDetaylar;
+                dgvSiparisDetaylar.DataSource = seciliSiparis.SiparisDetaylar.ToList();
 
             }
         }

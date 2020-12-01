@@ -11,6 +11,11 @@ namespace CafeBoost.Data
     [Table("Urunler")]
     public class Urun
     {
+        public Urun()
+        {
+            //yeni ürün oluşturduğumuzda boş liste ile başlasın, metotlarını kullabilmek için;
+            SiparisDetaylar = new HashSet<SiparisDetay>();
+        }
         public int Id { get; set; }
 
         [Required, MaxLength(100)]
