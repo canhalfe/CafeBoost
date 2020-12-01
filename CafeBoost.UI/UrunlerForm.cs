@@ -13,14 +13,14 @@ namespace CafeBoost.UI
 {
     public partial class UrunlerForm : Form
     {
-        private readonly KafeVeri db;
+        private readonly CafeBoostContext db;
 
         BindingList<Urun> blUrunler;
 
-        public UrunlerForm(KafeVeri kafeVeri)
+        public UrunlerForm(CafeBoostContext CafeBoostContext)
         {
-            db = kafeVeri;
-            blUrunler = new BindingList<Urun>(db.Urunler);
+            db = CafeBoostContext;
+            blUrunler = new BindingList<Urun>(db.Urunler.ToList());
             InitializeComponent();
             dgvUrunler.DataSource = blUrunler;
         }
@@ -39,7 +39,6 @@ namespace CafeBoost.UI
                 errorProvider1.SetError(txtUrunAd, "Ürün zaten tanımlı.");
                 return;
             }
-
 
             errorProvider1.SetError(txtUrunAd, "");
 
